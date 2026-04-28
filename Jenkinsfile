@@ -21,10 +21,19 @@ pipeline {
             }
         }
         stage('Test'){
+            agent {
+                docker {
+                    image 'node:18-alpine'
+                    reuseNode true
+                }
+            }
+
             steps {
                 echo 'Test stage'
                 sh '[ -f build/index.html ]'
                 sh 'ls -l build/index.html'
+
+                sh 'npm test /a'
             }
         }
     }
